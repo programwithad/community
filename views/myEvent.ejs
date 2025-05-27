@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Pulse - My Events</title>
+    <link rel="stylesheet" href="/addEventStyle.css"/>
+    <link rel="stylesheet" href="/homeStyle.css"/>
+    <style>
+       
+        /* Page Title */
+        .page-title {
+            margin: 25px 0 15px;
+            font-size: 24px;
+            font-weight: 600;
+            text-align: center;
+        }
+        
+        .section-heading {
+            font-size: 18px;
+            margin: 15px 0;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .filter-tabs {
+            display: flex;
+            margin: 20px 0;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            justify-content: center;
+        }
+        
+        .filter-tab {
+            padding: 8px 18px;
+            margin-right: 10px;
+            border-radius: 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            font-size: 14px;
+            transition: var(--transition);
+            white-space: nowrap;
+        }
+        
+        .filter-tab.active {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        /* Event Cards */
+        .events-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            padding: 20px 0;
+        }
+        
+        .event-card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+        
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        .event-image {
+            position: relative;
+            height: 120px;
+            overflow: hidden;
+        }
+        
+        .event-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+        
+        .event-card:hover .event-image img {
+            transform: scale(1.05);
+        }
+        
+        .event-category {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .music-category {
+            background-color: var(--secondary-color);
+        }
+        
+        .sports-category {
+            background-color: var(--accent-color-2);
+        }
+        
+        .exhibition-category {
+            background-color: var(--accent-color);
+        }
+        
+        .workshop-category {
+            background-color: #ff9800;
+        }
+        
+        .event-date {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 12px;
+            font-weight: 500;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+        
+        .event-content {
+            padding: 15px;
+        }
+        
+        .event-title {
+            font-size: 18px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .event-description {
+            color: var(--text-muted);
+            font-size: 13px;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        
+        .event-location {
+            display: flex;
+            align-items: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+        
+        .event-location:before {
+            content: "📍";
+            margin-right: 5px;
+        }
+        
+        .event-status {
+            padding: 5px 10px;
+            font-size: 12px;
+            margin-top: 10px;
+            display: inline-block;
+            border-radius: 5px;
+            font-weight: 500;
+        }
+        
+        .status-confirmed {
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--success-color);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+        
+        .status-pending {
+            background-color: rgba(255, 152, 0, 0.2);
+            color: var(--pending-color);
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+        
+        .status-canceled {
+            background-color: rgba(244, 67, 54, 0.2);
+            color: var(--canceled-color);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+        
+        .event-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            gap: 10px;
+        }
+        
+        .event-action-btn {
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            transition: var(--transition);
+        }
+        
+        .btn-details {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+        }
+        
+        .btn-cancel {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--canceled-color);
+        }
+        
+        .btn-join {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: var(--success-color);
+        }
+        
+        .event-action-btn:hover {
+            filter: brightness(1.2);
+        }
+        
+        .event-ticket {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .event-ticket:before {
+            content: "🎟️";
+            margin-right: 5px;
+        }
+        
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            border: 1px dashed var(--border-color);
+        }
+        
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+            color: var(--text-muted);
+        }
+        
+        .empty-state-title {
+            font-size: 22px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .empty-state-text {
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+        
+        .browse-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: 5px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .browse-btn:hover {
+            background-color: #7b25c9;
+        }
+        
+        /* User Tags */
+        .user-tag {
+            position: absolute;
+            padding: 8px 15px;
+            border-radius: 25px;
+            color: white;
+            font-weight: bold;
+            z-index: 10;
+            transform: translateY(-50%);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .user-tag-1 {
+            background-color: var(--tag-bg-1);
+        }
+        
+        .user-tag-2 {
+            background-color: var(--tag-bg-2);
+        }
+        
+        .user-tag-3 {
+            background-color: var(--tag-bg-3);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .events-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .nav-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                width: 60%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .events-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header-inner {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                width: 100%;
+                max-width: none;
+                margin: 10px 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">Community Pulse</a>
+            <div class="nav-tabs">
+                <div class="nav-tab" onclick="window.location.href='/dashboard'">Dashboard</div>
+                <div class="nav-tab" onclick ="window.location.href='/event/registered'">Registered Events</div>
+                <div class="nav-tab active">My Events</div>
+                <div class="nav-tab" onclick="window.location.href='/event/add'" style="cursor: pointer;">Add New Event</div>
+                <div class="nav-tab" onclick="window.location.href='/user/profile'" style="cursor: pointer;">My profile</div>
+            </div>
+            <!-- <div class="search-bar">
+                <input type="text" placeholder="search events...">
+                <button>🔍</button>
+            </div> -->
+            <a href="http://localhost:8080/logout" class="btn btn-primary">Logout</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <h1 class="page-title">My Events</h1>
+        
+        <!-- Filter Tabs -->
+        <div class="filter-tabs">
+            <div class="filter-tab active">All (6)</div>
+            <div class="filter-tab">Approved</div>
+            <div class="filter-tab">Pending</div>
+            <div class="filter-tab">Rejected</div>
+        </div>
+        
+        
+        <!-- Events Grid -->
+
+        <section class="events-grid">
+            <!-- Event Card 2 -->
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="image/exhibition.jpg" alt="Jewelry Exhibition">
+                    <span class="event-category exhibition-category">Exhibition</span>
+                    <span class="event-date">Aug 11-12</span>
+                </div>
+                <div class="event-content">
+                    <h3 class="event-title">Jewelry Exhibition</h3>
+                    <p class="event-description">Come by for an exclusive jewelry showcase, meet artistic craftsmen, and interact with them together.</p>
+                    <div class="event-location">Artisan Bazaar, abcdefg@hijklmnop.xyz</div>
+                    <div class="event-ticket">Ticket #JE2024-1254</div>
+                    <div class="event-status status-confirmed">Confirmed</div>
+                    <div class="event-actions">
+                        <div class="event-action-btn btn-details">View Details</div>
+                        <div class="event-action-btn btn-cancel">Cancel</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Card 3 -->
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="image/sports.jpg" alt="Tennis Tournament">
+                    <span class="event-category sports-category">Sports</span>
+                    <span class="event-date">Jun 25</span>
+                </div>
+                <div class="event-content">
+                    <h3 class="event-title">Tennis Tournament</h3>
+                    <p class="event-description">Don't miss the excitement at our local tennis tournament! Watch talented players from the community battle it out for the title.</p>
+                    <div class="event-location">Community Sports Center</div>
+                    <div class="event-ticket">Ticket #TT2024-0321</div>
+                    <div class="event-status status-pending">Awaiting Confirmation</div>
+                    <div class="event-actions">
+                        <div class="event-action-btn btn-details">View Details</div>
+                        <div class="event-action-btn btn-cancel">Cancel</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Event Card 4 -->
+            <div class="event-card">
+                <div class="event-image">
+                    <img src="image/work.jpg" alt="Creative Workshop">
+                    <span class="event-category workshop-category">Workshop</span>
+                    <span class="event-date">Jul 8</span>
+                </div>
+                <div class="event-content">
+                    <h3 class="event-title">Creative Writing Workshop</h3>
+                    <p class="event-description">Join our interactive workshop led by accomplished authors and develop your creative writing skills in a supportive environment.</p>
+                    <div class="event-location">Community Library, Room 203</div>
+                    <div class="event-ticket">Ticket #CW2024-0056</div>
+                    <div class="event-status status-confirmed">Confirmed</div>
+                    <div class="event-actions">
+                        <div class="event-action-btn btn-details">View Details</div>
+                        <div class="event-action-btn btn-cancel">Cancel</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    tab.classList.add('active');
+                });
+            });
+            
+            // Filter tabs
+            const filterTabs = document.querySelectorAll('.filter-tab');
+            
+            filterTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all filter tabs
+                    filterTabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Add active class to clicked filter tab
+                    tab.classList.add('active');
+                });
+            });
+            
+            // Event card hover effect
+            const eventCards = document.querySelectorAll('.event-card');
+            
+            eventCards.forEach(card => {
+                card.addEventListener('mouseover', () => {
+                    const userTag = card.querySelector('.user-tag');
+                    if (userTag) {
+                        userTag.style.transform = 'translateY(-60%)';
+                    }
+                });
+                
+                card.addEventListener('mouseout', () => {
+                    const userTag = card.querySelector('.user-tag');
+                    if (userTag) {
+                        userTag.style.transform = 'translateY(-50%)';
+                    }
+                });
+            });
+            
+            // Event action buttons
+            const actionButtons = document.querySelectorAll('.event-action-btn');
+            
+            actionButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    
+                    if (button.classList.contains('btn-cancel')) {
+                        if (confirm('Are you sure you want to cancel your registration for this event?')) {
+                            // Handle cancellation logic here
+                            alert('Your registration has been canceled.');
+                        }
+                    } else if (button.classList.contains('btn-join')) {
+                        // Handle join/payment logic
+                        alert('Redirecting to payment page...');
+                    } else if (button.classList.contains('btn-details')) {
+                        // Handle view details logic
+                        alert('Opening event details...');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

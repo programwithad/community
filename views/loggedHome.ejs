@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logged Home</title>
+    <link rel="stylesheet" href="/homeStyle.css">
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">Community Pulse</a>
+            <div class="search-bar">
+                <input type="text" placeholder="Search events...">
+                <button>🔍</button>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-secondary">
+                    <span class="btn-text"><a href="/event/add" style="text-decoration: none; color: white; font-weight: bold;">Create Event</a></span> +
+                </button>
+                <a href="/logout" class="btn btn-primary">Logout</a>
+                <!-- <div class="user-avatar">V</div> -->
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Discover What's Happening Nearby</h1>
+            <p>Connect with your local community through events, workshops, and gatherings in your neighborhood</p>
+            <div class="btn btn-primary" onclick="window.location.href='/dashboard'">Go to Dashboard</div>
+        </section>
+
+        <!-- Categories -->
+        <%- include("includes/home.ejs"); %>
+
+        <!-- Loading More -->
+        <div class="loading">
+            <div class="loading-spinner"></div>
+            <p>Loading more events...</p>
+        </div>
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Community Pulse</h3>
+                    <p>Connecting neighborhoods and building stronger communities through local events.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Categories</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Live Music</a></li>
+                        <li><a href="#">Sports</a></li>
+                        <li><a href="#">Exhibition</a></li>
+                        <li><a href="#">Workshop</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Stay Connected</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Sign Up</a></li>
+                        <li><a href="#">Create Event</a></li>
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Community Pulse. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Sample JavaScript for event interactions
+        document.addEventListener('DOMContentLoaded', function() {
+            // Category filtering
+            const categoryItems = document.querySelectorAll('.category-item');
+            
+            categoryItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    // Remove active class from all items
+                    categoryItems.forEach(cat => cat.classList.remove('active'));
+                    
+                    // Add active class to clicked item
+                    item.classList.add('active');
+                    
+                    // Here you would typically filter the events
+                    // For demo purposes, we'll just show a loading animation
+                    const loading = document.querySelector('.loading');
+                    loading.style.display = 'block';
+                    
+                    // Simulate loading
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                    }, 1000);
+                });
+            });
+            
+            // Create Event button
+            const createEventBtn = document.querySelector('.create-event');
+            createEventBtn.addEventListener('click', () => {
+                alert('Create Event form would open here!');
+            });
+            
+            // Infinite scroll simulation
+            window.addEventListener('scroll', () => {
+                const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+                
+                if (scrollTop + clientHeight >= scrollHeight - 5) {
+                    // User has scrolled to the bottom
+                    const loading = document.querySelector('.loading');
+                    loading.style.display = 'block';
+                    
+                    // Simulate loading more content
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                        // In a real application, you would load more events here
+                    }, 1500);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

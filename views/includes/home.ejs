@@ -1,0 +1,79 @@
+        <section class="categories">
+            <div class="categories-title">
+                <h2>Browse Events</h2>
+                <div class="view-all">View All</div>
+            </div>
+            <div class="categories-list">
+                <div class="category-item active" data-filter="All">All Events</div>
+                <div class="category-item" data-filter="Live Music">Live Music</div>
+                <div class="category-item" data-filter="Sports">Sports</div>
+                <div class="category-item" data-filter="Exhibition">Exhibition</div>
+                <div class="category-item" data-filter="Workshop">Workshop</div>
+                <div class="category-item" data-filter="Conference">Conference</div>
+                <div class="category-item" data-filter="Networking">Networking</div>
+            </div>
+        </section>
+        
+        
+
+        <!-- Events Grid -->
+        <section class="events-grid">
+            <!-- Event Card -->
+            <%for (item of result) {%>
+            <div class="event-card" data-id="<%- item.eventID %>">
+                <div class="event-image">
+                    <img src="/events/<%-item.imagePath%>" alt="Live Music Festival">
+                    <span class="event-category music-category"><%-item.category%></span>
+                    <span class="event-date"><%-new Date(item.eventDate).toISOString().slice(0, 10)%></span>
+                </div>
+                <div class="event-content">
+                    <h3 class="event-title"><%-item.eventTitle%></h3>
+                    <p class="event-description"><%-item.eventDescription%></p>
+                    <div class="event-footer">
+                        <div class="event-organizer">
+                            <div class="organizer-avatar">U</div>
+                            <span class="organizer-name"><%-item.organizerName%></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%}%>
+
+        </section>
+
+        <!-- JavaScript Filtering -->
+
+
+        <script>
+  document.querySelectorAll('.category-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Handle active class
+      document.querySelector('.category-item.active')?.classList.remove('active');
+      btn.classList.add('active');
+
+      // Get selected category
+      const selected = btn.textContent.trim();
+      
+      // Show/hide event cards
+      document.querySelectorAll('.event-card').forEach(card => {
+        const cardCategory = card.querySelector('.event-category').textContent.trim();
+        if (selected === 'All Events' || cardCategory === selected) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    });
+  });
+
+
+    // 🔥 Card click logic
+  document.querySelectorAll('.event-card').forEach(card => {
+    card.addEventListener('click', () => {
+      const eventId = card.getAttribute('data-id');
+      if (eventId) {
+        window.location.href = `/event/detail:${eventId}`;
+      }
+    });
+  });
+</script>

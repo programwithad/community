@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Event - Community Pulse</title>
+    <link rel="stylesheet" href="/addEventStyle.css"/>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">Community Pulse</a>
+            <div class="nav-tabs">
+                <div class="nav-tab" onclick="window.location.href='/dashboard'" style="cursor: pointer;">Dashboard</div>
+                <div class="nav-tab" onclick="window.location.href='/event/registered'" style="cursor: pointer;">Registered Events</div>
+                <div class="nav-tab" onclick="window.location.href='/event/host'" style="cursor: pointer;">My Events</div>
+                <div class="nav-tab active">Add New Event</div>
+                <div class="nav-tab" onclick="window.location.href='/user/profile'" style="cursor: pointer;">My profile</div>
+            </div>
+            <!-- <div class="search-bar">
+                <input type="text" placeholder="search events...">
+                <button>🔍</button>
+            </div> -->
+            <a href="http://localhost:8080/logout" class="btn btn-primary">Logout</a>
+        </div>
+        <style>
+            .btn {
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        </style>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">        
+        <!-- Form Container -->
+        <div class="form-container">
+            <div class="form-header">
+                <h2>Create a New Event</h2>
+                <p>Share your event with the community. Fill in the details below to get started.</p>
+            </div>
+            
+            <form id="createEventForm" method="post" action="/event/add" enctype="multipart/form-data">
+                <div class="form-grid">
+                    <!-- Event Title -->
+                    <div class="form-group full-width">
+                        <label for="eventTitle">Event Title*</label>
+                        <input type="text" name="eventTitle" id="eventTitle" class="form-control" placeholder="Give your event a catchy title" required>
+                    </div>
+
+                    <!-- Organizer Name-->
+                    <div class="form-group full-width">
+                        <label for="organizerName">Organizer Name*</label>
+                        <input type="text" name="organizerName" id="eventTitle" class="form-control" placeholder="Organizer : Individual / Company / Organization" required>
+                    </div>
+                    
+                    <!-- Event Category -->
+                    <!-- Event Category - Fixed Version -->
+                    <div class="form-group">
+                        <label for="eventCategory">Event Category*</label>
+                        <select id="eventCategory" name="eventCategory" class="form-control" required>
+                            <option value="">Select a category</option>
+                            <option value="music">Live Music</option>
+                            <option value="sports">Sports</option>
+                            <option value="exhibition">Exhibition</option>
+                            <option value="workshop">Workshop</option>
+                            <option value="conference">Conference</option>
+                            <option value="networking">Networking</option>
+                            <option value="other">Other (Custom)</option>
+                        </select>
+                    
+                        <!-- Custom category input (hidden by default) -->
+                        <input type="text" id="customCategory" name="customCategory" class="form-control" placeholder="Enter your custom category" style="display: none; margin-top: 10px;" maxlength="50">
+                        <span class="help-text">Choose a category or create your own</span>
+                    </div>
+                    
+                    <!-- Event Date -->
+                    <div class="form-group">
+                        <label for="eventDate">Event Date*</label>
+                        <input type="date" id="eventDate" name="eventDate" class="form-control" required>
+                    </div>
+                    
+                    <!-- Event Location -->
+                    <div class="form-group">
+                        <label for="eventLocation">Location*</label>
+                        <input type="text" id="eventLocation" name="eventLocation" class="form-control" placeholder="Where will your event take place?" required>
+                    </div>
+                    
+                    <!-- Event Contact -->
+                    <div class="form-group">
+                        <label for="eventContact">Contact Email*</label>
+                        <input type="email" id="eventContact" name="contactEmail" class="form-control" placeholder="Contact email for attendees" required>
+                        <span class="help-text">This will be visible to all attendees</span>
+                    </div>
+                    
+                    <!-- Event Description -->
+                    <div class="form-group full-width">
+                        <label for="eventDescription">Event Description*</label>
+                        <textarea id="eventDescription" name="eventD" class="form-control" placeholder="Describe your event in detail. What can attendees expect?" required></textarea>
+                    </div>
+                    
+                    <!-- Event Image -->
+                    <div class="form-group full-width">
+                        <label>Event Cover Image*</label>
+                        <label class="file-upload">
+                            <input type="file" name="eventImg" id="eventImage" accept="image/*">
+                            <div class="file-upload-icon">📷</div>
+                            <div class="file-upload-text">Drop an image here or click to upload</div>
+                        </label>
+                        <span class="help-text">Recommended size: 800x450px. Max file size: 2MB</span>
+                    </div>
+                    
+                    <!-- Registration Status -->
+                    <div class="form-group">
+                        <label for="registrationStatus">Registration Status*</label>
+                        <select id="registrationStatus" name="regStatus" class="form-control">
+                            <option value="open">Registration Open</option>
+                            <option value="closed">Registration Closed</option>
+                            <option value="not-open">Registration Not Yet Open</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Max Attendees -->
+                    <div class="form-group">
+                        <label for="maxAttendees">Maximum Attendees</label>
+                        <input type="number" id="maxAttendees" name="maxAttend" class="form-control" placeholder="Leave blank for unlimited">
+                    </div>
+                </div>
+                
+                <!-- Social Media Link -->
+                <div class="form-group">
+                    <label for="socialMedia">Social Media Link</label>
+                    <input type="url" id="socialMedia" name="socialMedia" class="form-control" placeholder="Link to WhatsApp, Instagram, etc.">
+                    <span class="help-text">Optional: Share a link to a group, page, or event</span>
+                </div>
+
+                <!-- Live Preview Section -->
+                <div class="preview-card">
+                    <div class="preview-header">
+                        <h3>📋 Live Preview</h3>
+                    </div>
+                    <div class="preview-content">
+                        <div class="event-card-preview">
+                            <div class="event-image-preview">
+                                <span id="previewCategory" class="event-category-preview music-category">Live Music</span>
+                                <span id="previewDate" class="event-date-preview">Select a date</span>
+                            </div>
+                            <div class="event-content-preview">
+                                <h3 id="previewTitle" class="event-title-preview">Your Event Title</h3>
+                                <p id="previewDescription" class="event-description-preview">Your event description will appear here as you type...</p>
+                                <div id="previewLocation" class="event-location-preview">Event location</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Form Actions -->
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Create Event</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+      <!-- Your event form here -->
+
+    <script>
+        // Complete replacement JavaScript - Express.js compatible
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. Category selection with custom input
+    const eventCategorySelect = document.getElementById('eventCategory');
+    const customCategoryInput = document.getElementById('customCategory');
+    const previewCategory = document.getElementById('previewCategory');
+
+    if (eventCategorySelect && customCategoryInput) {
+        eventCategorySelect.addEventListener('change', function() {
+            const selectedValue = this.value;
+            
+            if (selectedValue === 'other') {
+                customCategoryInput.style.display = 'block';
+                customCategoryInput.focus();
+                customCategoryInput.required = true;
+                
+                if (previewCategory) {
+                    previewCategory.className = 'event-category-preview custom-category';
+                    previewCategory.textContent = 'Custom';
+                }
+            } else {
+                customCategoryInput.style.display = 'none';
+                customCategoryInput.required = false;
+                customCategoryInput.value = '';
+                
+                if (previewCategory) {
+                    updatePreviewCategory(selectedValue);
+                }
+            }
+        });
+
+        // Update preview when typing custom category
+        if (previewCategory) {
+            customCategoryInput.addEventListener('input', function() {
+                const customValue = this.value.trim();
+                previewCategory.textContent = customValue || 'Custom';
+            });
+        }
+    }
+
+    // 2. Live preview updates (keeping the useful parts)
+    const eventTitleInput = document.getElementById('eventTitle');
+    const eventDescriptionInput = document.getElementById('eventDescription');
+    const eventLocationInput = document.getElementById('eventLocation');
+    const eventDateInput = document.getElementById('eventDate');
+    
+    const previewTitle = document.getElementById('previewTitle');
+    const previewDescription = document.getElementById('previewDescription');
+    const previewLocation = document.getElementById('previewLocation');
+    const previewDate = document.getElementById('previewDate');
+    
+    // Only add listeners if elements exist
+    if (eventTitleInput && previewTitle) {
+        eventTitleInput.addEventListener('input', function() {
+            previewTitle.textContent = this.value || 'Your Event Title';
+        });
+    }
+    
+    if (eventDescriptionInput && previewDescription) {
+        eventDescriptionInput.addEventListener('input', function() {
+            previewDescription.textContent = this.value || 'Your event description will appear here as you type...';
+        });
+    }
+    
+    if (eventLocationInput && previewLocation) {
+        eventLocationInput.addEventListener('input', function() {
+            previewLocation.textContent = this.value || 'Event location';
+        });
+    }
+    
+    if (eventDateInput && previewDate) {
+        eventDateInput.addEventListener('change', function() {
+            if (this.value) {
+                const date = new Date(this.value);
+                const options = { month: 'short', day: 'numeric' };
+                previewDate.textContent = date.toLocaleDateString('en-US', options);
+            } else {
+                previewDate.textContent = 'Select a date';
+            }
+        });
+    }
+    
+    // 3. File upload preview
+    const eventImageInput = document.getElementById('eventImage');
+    const eventImagePreview = document.querySelector('.event-image-preview');
+    
+    if (eventImageInput && eventImagePreview) {
+        eventImageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    eventImagePreview.style.backgroundImage = `url(${e.target.result})`;
+                    eventImagePreview.style.backgroundSize = 'cover';
+                    eventImagePreview.style.backgroundPosition = 'center';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+
+    // 4. Helper function for preview updates
+    function updatePreviewCategory(category) {
+        if (!previewCategory) return;
+        
+        previewCategory.className = 'event-category-preview';
+        
+        const categoryMap = {
+            'music': { class: 'music-category', text: 'Live Music' },
+            'sports': { class: 'sports-category', text: 'Sports' },
+            'exhibition': { class: 'exhibition-category', text: 'Exhibition' },
+            'workshop': { class: 'workshop-category', text: 'Workshop' },
+            'conference': { class: 'conference-category', text: 'Conference' },
+            'networking': { class: 'networking-category', text: 'Networking' }
+        };
+        
+        if (categoryMap[category]) {
+            previewCategory.classList.add(categoryMap[category].class);
+            previewCategory.textContent = categoryMap[category].text;
+        } else {
+            previewCategory.textContent = 'Select Category';
+        }
+    }
+});
+    </script>
+</body>
+</html>

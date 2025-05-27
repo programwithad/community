@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Pulse - My Profile</title>
+    <link rel="stylesheet" href="/homeStyle.css"/>
+    <style>
+        :root {
+            --primary-color: #4a4a4a;
+            --secondary-color: #8a2be2;
+            --accent-color: #1e90ff;
+            --accent-color-2: #32cd32;
+            --dark-bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-light: #f5f5f5;
+            --text-muted: #aaaaaa;
+            --card-radius: 12px;
+            --transition: all 0.3s ease;
+            --tag-bg-1: #5bc9e1;
+            --tag-bg-2: #ff69b4;
+            --tag-bg-3: #a17bfc;
+            --border-color: rgba(255, 255, 255, 0.1);
+            --success-color: #4caf50;
+            --pending-color: #ff9800;
+            --canceled-color: #f44336;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .btn {
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header Styles */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: rgba(18, 18, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+        }
+        
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-light);
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            margin-right: auto;
+        }
+        
+        .nav-tab {
+            padding: 10px 15px;
+            margin-right: 5px;
+            cursor: pointer;
+            position: relative;
+            color: var(--text-muted);
+        }
+        
+        .nav-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+        
+        .nav-tab.active {
+            font-weight: bold;
+            color: var(--text-light);
+        }
+        
+        .search-bar {
+            position: relative;
+            flex: 1;
+            max-width: 400px;
+            margin: 0 20px;
+        }
+        
+        .search-bar input {
+            width: 100%;
+            padding: 10px 40px 10px 15px;
+            border-radius: 25px;
+            border: none;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .search-bar button {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--text-light);
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background-color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        
+        /* Page Title */
+        .page-title {
+            margin: 25px 0 15px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .section-heading {
+            font-size: 18px;
+            margin: 25px 0 15px;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        /* Profile Layout */
+        .profile-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        /* Profile Card */
+        .profile-card {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            padding: 25px;
+            border: 1px solid var(--border-color);
+            height: fit-content;
+        }
+        
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+        
+        .avatar-edit {
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+            width: 30px;
+            height: 30px;
+            background-color: var(--accent-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .profile-name {
+            text-align: center;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .profile-email {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+        
+        .profile-status {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .status-badge {
+            display: inline-block;
+            padding: 5px 12px;
+            background-color: rgba(76, 175, 80, 0.2);
+            color: var(--success-color);
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 500;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+        
+        .profile-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 15px 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+        
+        .stat-number {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--secondary-color);
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+        
+        .profile-bio {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .bio-text {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 15px;
+        }
+        
+        .interests-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .interest-tag {
+            padding: 5px 10px;
+            background-color: rgba(138, 43, 226, 0.2);
+            color: var(--secondary-color);
+            border-radius: 15px;
+            font-size: 12px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+        
+        /* Settings Panel */
+        .settings-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .settings-section {
+            background-color: var(--card-bg);
+            border-radius: var(--card-radius);
+            padding: 25px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .settings-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--text-light);
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(138, 43, 226, 0.2);
+        }
+        
+        .form-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        
+        .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background-color: rgba(255, 255, 255, 0.05);
+            color: var(--text-light);
+            font-size: 14px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--secondary-color);
+        }
+        
+        .checkbox-label {
+            font-size: 14px;
+            color: var(--text-light);
+        }
+        
+        .checkbox-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-left: 28px;
+            margin-top: -8px;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: #7b25c9;
+        }
+        
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: var(--text-light);
+            border: 1px solid var(--border-color);
+        }
+        
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.15);
+        }
+        
+        .btn-danger {
+            background-color: rgba(244, 67, 54, 0.1);
+            color: var(--canceled-color);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+        }
+        
+        .btn-danger:hover {
+            background-color: rgba(244, 67, 54, 0.2);
+        }
+        
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        
+        .achievement-card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+        
+        .achievement-icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+        
+        .achievement-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .achievement-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .profile-layout {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .profile-stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .nav-tabs {
+                overflow-x: auto;
+                white-space: nowrap;
+                width: 60%;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .header-inner {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                width: 100%;
+                max-width: none;
+                margin: 10px 0 0;
+            }
+            
+            .btn-group {
+                flex-direction: column;
+            }
+        }
+        .btn {
+            padding: 8px 15px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 14px;
+        }
+        
+        .btn-primary {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-inner">
+            <a href="#" class="logo">Community Pulse</a>
+            <div class="nav-tabs">
+                <div class="nav-tab" onclick="window.location.href='/dashboard'" style="cursor: pointer;">Dashboard</div>
+                <div class="nav-tab" onclick="window.location.href='/event/registered'" style="cursor: pointer;">Registered Events</div>
+                <div class="nav-tab" onclick="window.location.href='/event/host'" style="cursor: pointer;">My Events</div>
+                <div class="nav-tab" onclick="window.location.href='/event/add'" style="cursor: pointer;">Add New Event</div>
+                <div class="nav-tab active">My profile</div>
+            </div>
+            <!-- <div class="search-bar">
+                <input type="text" placeholder="search events...">
+                <button>🔍</button>
+            </div> -->
+            <a href="http://localhost:8080/logout" class="btn btn-primary">Logout</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <h1 class="page-title">My Profile</h1>
+        
+        <div class="profile-layout">
+            <!-- Profile Card -->
+            <div class="profile-card">
+                <div class="profile-avatar">
+                    🦊
+                    <div class="avatar-edit">✏️</div>
+                </div>
+                
+                <div class="profile-name"><%-data.firstN%> <%-data.lastN%></div>
+                <div class="profile-email"><%-data.email%></div>
+                
+                <div class="profile-status">
+                    <span class="status-badge">🌟 Verified</span>
+                </div>
+                
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Events Joined</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">3</div>
+                        <div class="stat-label">Events Created</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">42</div>
+                        <div class="stat-label">Community Points</div>
+                    </div>
+                </div>
+                
+                <div class="profile-bio">
+                    <div class="bio-text">
+                        Community enthusiast passionate about bringing people together through local events. Love organizing outdoor activities and creative workshops.
+                    </div>
+                    
+                    <div class="interests-tags">
+                        <span class="interest-tag">Music</span>
+                        <span class="interest-tag">Sports</span>
+                        <span class="interest-tag">Art</span>
+                        <span class="interest-tag">Volunteering</span>
+                        <span class="interest-tag">Outdoor Activities</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Settings Panel -->
+            <div class="settings-panel">
+                <!-- Personal Information -->
+                <div class="settings-section">
+                    <h3 class="settings-title">👤 Personal Information</h3>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" value="<%-data.firstName%> <%-data.lastName%>" readonly/>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" value="<%-data.email%>" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" value="<%-data.phone%>" readonly>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Bio</label>
+                        <textarea class="form-input form-textarea" placeholder="Tell us about yourself..." readonly>Community enthusiast passionate about bringing people together through local events. Love organizing outdoor activities and creative workshops.</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-input" value="<%-data.city%>, <%-data.state%>" readonly>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-primary">Save Changes</button>
+                        <button class="btn btn-secondary">Cancel</button>
+                    </div>
+                </div>
+                
+                <!-- Achievements -->
+                <div class="settings-section">
+                    <h3 class="settings-title">🏆 Achievements</h3>
+                    
+                    <div class="achievements-grid">
+                        <div class="achievement-card">
+                            <div class="achievement-icon">🎯</div>
+                            <div class="achievement-title">First Event</div>
+                            <div class="achievement-desc">Created your first event</div>
+                        </div>
+                        
+                        <div class="achievement-card">
+                            <div class="achievement-icon">👥</div>
+                            <div class="achievement-title">Social Butterfly</div>
+                            <div class="achievement-desc">Joined 5+ events</div>
+                        </div>
+                        
+                        <div class="achievement-card">
+                            <div class="achievement-icon">⭐</div>
+                            <div class="achievement-title">Community Star</div>
+                            <div class="achievement-desc">Earned 25+ points</div>
+                        </div>
+                        
+                        <div class="achievement-card">
+                            <div class="achievement-icon">🎪</div>
+                            <div class="achievement-title">Event Organizer</div>
+                            <div class="achievement-desc">Hosted 3+ events</div>
+                        </div>
+                    </div>
+                </div>
+
+                
+                <!-- Notification Preferences -->
+                <div class="settings-section">
+                    <h3 class="settings-title">🔔 Notification Preferences</h3>
+                    
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="email-events" checked>
+                            <label for="email-events" class="checkbox-label">Event Reminders</label>
+                        </div>
+                        <div class="checkbox-desc">Get email reminders 1 day before events you're registered for</div>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="email-updates" checked>
+                            <label for="email-updates" class="checkbox-label">Event Updates</label>
+                        </div>
+                        <div class="checkbox-desc">Receive notifications when event details change</div>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="sms-reminders">
+                            <label for="sms-reminders" class="checkbox-label">SMS Reminders</label>
+                        </div>
+                        <div class="checkbox-desc">Get text message reminders for upcoming events</div>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="weekly-digest" checked>
+                            <label for="weekly-digest" class="checkbox-label">Weekly Digest</label>
+                        </div>
+                        <div class="checkbox-desc">Weekly summary of new events in your area</div>
+                        
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="marketing">
+                            <label for="marketing" class="checkbox-label">Marketing Communications</label>
+                        </div>
+                        <div class="checkbox-desc">Promotional emails about new features and special events</div>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-primary">Save Preferences</button>
+                    </div>
+                </div>
+                
+                
+                
+                <!-- Account Settings -->
+                <div class="settings-section">
+                    <h3 class="settings-title">⚙️ Account Settings</h3>
+
+                    <div class="form-group">
+                        <label class="form-label">Old Password</label>
+                        <input type="password" class="form-input" placeholder="Confirm new password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">New Password</label>
+                        <input type="password" class="form-input" placeholder="Enter new password">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-input" placeholder="Confirm new password">
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button class="btn btn-primary">Update Password</button>
+                        <button class="btn btn-primary">Forgot Password</button>
+                        <button class="btn btn-danger">Delete Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation tabs
+            const navTabs = document.querySelectorAll('.nav-tab');
+            
+            navTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    navTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                });
+            });
+            
+            // Avatar edit functionality
+            const avatarEdit = document.querySelector('.avatar-edit');
+            avatarEdit.addEventListener('click', () => {
+                // In a real app, this would open a file picker or avatar selection modal
+                alert('Avatar upload functionality would be implemented here');
+            });
+            
+            // Form validation and submission
+            const saveButtons = document.querySelectorAll('.btn-primary');
+            
+            saveButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    if (button.textContent.includes('Save') || button.textContent.includes('Update')) {
+                        // Add visual feedback
+                        const originalText = button.textContent;
+                        button.textContent = 'Saving...';
+                        button.disabled = true;
+                        
+                        // Simulate API call
+                        setTimeout(() => {
+                            button.textContent = 'Saved!';
+                            button.style.backgroundColor = 'var(--success-color)';
+                            
+                            setTimeout(() => {
+                                button.textContent = originalText;
+                                button.disabled = false;
+                                button.style.backgroundColor = '';
+                            }, 1500);
+                        }, 1000);
+                    }
+                });
+            });
+            
+            // Delete account confirmation
+            const deleteButton = document.querySelector('.btn-danger');
+            deleteButton.addEventListener('click', () => {
+                if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+                    if (confirm('This will permanently delete all your events and data. Are you absolutely sure?')) {
+                        alert('Account deletion would be processed here');
+                    }
+                }
+            });
+            
+            // Real-time form validation
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.addEventListener('blur', () => {
+                    if (input.type === 'email' && input.value) {
+                        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                        if (!emailRegex.test(input.value)) {
+                            input.style.borderColor = 'var(--canceled-color)';
+                        } else {
+                            input.style.borderColor = 'var(--success-color)';
+                        }
+                    }
+                });
+                
+                input.addEventListener('focus', () => {
+                    input.style.borderColor = 'var(--secondary-color)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

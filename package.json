@@ -1,0 +1,26 @@
+{
+  "name": "community-pulse",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": ["community", "events", "express", "nodejs"],
+  "author": "",
+  "license": "ISC",
+  "description": "Community event management platform",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.8.0",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-session": "^1.18.1",
+    "method-override": "^3.0.0",
+    "multer": "^2.0.0",
+    "mysql2": "^3.14.1"
+  }
+}
